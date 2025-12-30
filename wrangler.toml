@@ -9,8 +9,8 @@ compatibility_date = "2025-12-30"
 pattern = "who2industries.systems"
 custom_domain = true
 
-[assets]
-directory = "./assets/"
-not_found_handling = "single-page-application"
-binding = "ASSETS"
-run_worker_first = [ "/api/*", "!/api/docs/*" ]
+#[assets]
+#directory = "./assets/"
+#not_found_handling = "single-page-application"
+#binding = "ASSETS"
+#run_worker_first = [ "/api/*", "!/api/docs/*" ]
