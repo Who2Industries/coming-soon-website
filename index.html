@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Who2Industries — rebooting the internet with open, secure, and automated systems."
+    />
+    <title>Who2Industries — Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+    <div class="page-grid">
+      <header class="site-header" aria-label="Who2Industries logo">
+        <div class="logo">
+          <img src="images/logo.png" alt="Who2Industries logo" width="280" height="280" />
+        </div>
+      </header>
+
+      <main id="main" class="hero" role="main">
+        <h1 class="headline">who2industries: <span class="accent">rebooting the internet…</span></h1>
+        <p class="tagline fade-in" aria-live="polite">
+          <span class="typing" data-text="Building the next generation of open, secure, and automated systems."></span>
+          <span class="caret" aria-hidden="true"></span>
+        </p>
+        <section class="about fade-in delay-1" aria-label="About Who2Industries">
+          <p>Who2Industries is where infrastructure meets individuality.</p>
+          <p>
+            We design and manage systems that work for people — not against them.
+          </p>
+        </section>
+
+        <section class="countdown fade-in delay-2" aria-label="Launch countdown" role="timer">
+          <h2 class="section-title">System boot in</h2>
+          <div class="countdown-grid" id="countdown">
+            <div class="countdown-segment">
+              <span class="count" data-unit="days">00</span>
+              <span class="label">Days</span>
+            </div>
+            <div class="countdown-segment">
+              <span class="count" data-unit="hours">00</span>
+              <span class="label">Hours</span>
+            </div>
+            <div class="countdown-segment">
+              <span class="count" data-unit="minutes">00</span>
+              <span class="label">Minutes</span>
+            </div>
+            <div class="countdown-segment">
+              <span class="count" data-unit="seconds">00</span>
+              <span class="label">Seconds</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="social fade-in delay-3" aria-label="Social and contact">
+          <h2 class="section-title">Connect</h2>
+          <ul>
+            <li>
+              <a href="https://socials.who2industries.ink" target="_blank" rel="noreferrer" data-platform="github"
+                >Socials</a
+              >
+            </li>
+            <li><a href="https://socials.who2industries.ink/who2industries-projects" target="_blank" rel="noreferrer">Projects</a></li>
+            <li>
+              <a href="https://mstdn.business/@who2industries" target="_blank" rel="me noreferrer"
+                >Updates from Mastodon</a
+              >
+            </li>
+            <li>
+              <a href="https://techhub.social/@spoljarevic" target="_blank" rel="me noreferrer"
+                >Founders Mastodon</a
+              >
+            </li>
+            <li><a href="mailto:info@who2industries.systems">info@who2industries.systems</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p>© 2025 Who2Industries — Crafted with ❤️ and Linux</p>
+      </footer>
+    </div>
+
+    <div class="cli-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="cli-window">
+        <header class="cli-header">who2industries://terminal</header>
+        <div class="cli-body">
+          <p class="cli-output">Press Esc to exit. Type <kbd>help</kbd> to see commands.</p>
+          <div class="cli-log" id="cli-log" aria-live="polite"></div>
+          <div class="cli-line">
+            <span class="prompt">who2@comingsoon:~$</span>
+            <span class="input" id="cli-input"></span>
+            <span class="cli-caret"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/script.js" defer></script>
+  </body>
+</html>
+
