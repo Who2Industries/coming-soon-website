@@ -28,7 +28,7 @@ server {
 
     root /var/www/who2industries;
     index index.html;
-}
+}```
 
 Usage
 
