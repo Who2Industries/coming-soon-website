@@ -5,7 +5,12 @@
 name = "who2industries-coming-soon"
 compatibility_date = "2025-12-30"
 
+[[routes]]
 pattern = "who2industries.systems"
 custom_domain = true
 
-assets = { directory = "./assets", binding = "ASSETS", html_handling = "force-trailing-slash", not_found_handling = "404-page" }
+[assets]
+directory = "./assets/"
+not_found_handling = "single-page-application"
+binding = "ASSETS"
+run_worker_first = [ "/api/*", "!/api/docs/*" ]
