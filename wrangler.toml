@@ -1,0 +1,6 @@
+# ────────────────────────────────────────
+# Cloudflare Workers configuration for Pages
+# ────────────────────────────────────────
+
+name = "who2industries-coming-soon"
+compatibility_date = "2025-12-30"
