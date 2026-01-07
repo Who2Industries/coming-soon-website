@@ -2,7 +2,7 @@
 # Cloudflare Workers configuration for Pages
 # ────────────────────────────────────────
 
-name = "coming-soon-website"
+name = "promowho2industries"
 compatibility_date = "2025-12-30"
 
 [[routes]]
