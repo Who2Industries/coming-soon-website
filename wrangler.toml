@@ -3,7 +3,7 @@
 # ────────────────────────────────────────
 
 name = "coming-soon-website"
-compatibility_date = "2025-12-30"
+compatibility_date = "2026-01-07"
 
 [[routes]]
 pattern = "who2industries.systems"
