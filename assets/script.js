@@ -1,5 +1,7 @@
 (function () {
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  );
   let launchDate;
 
   initTyping();
@@ -9,18 +11,18 @@
   initCLI();
 
   function onMotionPreferenceChange(callback) {
-    if (typeof prefersReducedMotion.addEventListener === 'function') {
-      prefersReducedMotion.addEventListener('change', callback);
-    } else if (typeof prefersReducedMotion.addListener === 'function') {
+    if (typeof prefersReducedMotion.addEventListener === "function") {
+      prefersReducedMotion.addEventListener("change", callback);
+    } else if (typeof prefersReducedMotion.addListener === "function") {
       prefersReducedMotion.addListener(callback);
     }
   }
 
   function initTyping() {
-    const typingEl = document.querySelector('.typing');
+    const typingEl = document.querySelector(".typing");
     if (!typingEl) return;
 
-    const text = typingEl.dataset.text || '';
+    const text = typingEl.dataset.text || "";
     if (!text) return;
 
     const shouldReduceMotion = prefersReducedMotion.matches;
@@ -44,29 +46,29 @@
   }
 
   function initCountdown() {
-    const countdownEl = document.getElementById('countdown');
+    const countdownEl = document.getElementById("countdown");
     if (!countdownEl) return;
-  
-    launchDate = new Date('2027-01-01T00:00:00Z');
-  
+
+    launchDate = new Date("2028-01-01T00:00:00Z");
+
     const update = () => {
       const now = new Date();
       const diff = launchDate - now;
-  
+
       if (diff <= 0) {
         setSegments(countdownEl, { days: 0, hours: 0, minutes: 0, seconds: 0 });
         return true;
       }
-  
+
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
-  
+
       setSegments(countdownEl, { days, hours, minutes, seconds });
       return false;
     };
-  
+
     update();
     const interval = window.setInterval(() => {
       const finished = update();
@@ -75,94 +77,99 @@
       }
     }, 1000);
   }
-  
 
   function setSegments(container, segments) {
     Object.entries(segments).forEach(([unit, value]) => {
       const segmentEl = container.querySelector(`[data-unit="${unit}"]`);
       if (segmentEl) {
-        segmentEl.textContent = value.toString().padStart(2, '0');
+        segmentEl.textContent = value.toString().padStart(2, "0");
       }
     });
   }
 
   function initForm() {
-    const form = document.getElementById('notify-form');
+    const form = document.getElementById("notify-form");
     if (!form) return;
 
-    const emailInput = form.querySelector('#email');
-    const feedback = document.getElementById('form-feedback');
+    const emailInput = form.querySelector("#email");
+    const feedback = document.getElementById("form-feedback");
     const submitButton = form.querySelector('button[type="submit"]');
 
     const setState = (state, message) => {
-      form.classList.remove('success', 'error');
-      feedback.classList.remove('success', 'error');
+      form.classList.remove("success", "error");
+      feedback.classList.remove("success", "error");
 
       if (state) {
         form.classList.add(state);
         feedback.classList.add(state);
       }
 
-      feedback.textContent = message || '';
-      submitButton.disabled = state === 'success';
+      feedback.textContent = message || "";
+      submitButton.disabled = state === "success";
     };
 
-    form.addEventListener('submit', async (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       const email = emailInput.value.trim();
       const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
       if (!isValid) {
-        setState('error', 'Please enter a valid email address.');
+        setState("error", "Please enter a valid email address.");
         return;
       }
 
-      const botcheck = form.querySelector('#botcheck');
+      const botcheck = form.querySelector("#botcheck");
       if (botcheck && botcheck.checked) {
-        setState('error', 'Invalid submission detected.');
+        setState("error", "Invalid submission detected.");
         return;
       }
 
       submitButton.disabled = true;
-      setState('', 'Subscribing...');
+      setState("", "Subscribing...");
 
       try {
         const formData = new FormData(form);
-        formData.set('message', `New subscriber email: ${email}\n\nPlease add this email to the Who2Industries mailing list.`);
-        formData.set('from_email', email);
-        formData.set('email', email);
+        formData.set(
+          "message",
+          `New subscriber email: ${email}\n\nPlease add this email to the Who2Industries mailing list.`,
+        );
+        formData.set("from_email", email);
+        formData.set("email", email);
         if (botcheck) {
-          formData.set('botcheck', '');
+          formData.set("botcheck", "");
         }
 
-        const response = await fetch('/api/subscribe', {
-          method: 'POST',
+        const response = await fetch("/api/subscribe", {
+          method: "POST",
           body: formData,
         });
 
         const data = await response.json();
 
         if (response.ok && data.success) {
-          setState('success', 'Subscribed — we will notify you when we launch.');
+          setState(
+            "success",
+            "Subscribed — we will notify you when we launch.",
+          );
           form.reset();
           window.setTimeout(() => {
-            setState('', '');
+            setState("", "");
             submitButton.disabled = false;
           }, 5000);
         } else {
-          throw new Error(data.message || 'Submission failed');
+          throw new Error(data.message || "Submission failed");
         }
       } catch (error) {
-        console.error('Form submission error:', error);
-        setState('error', 'Something went wrong. Please try again later.');
+        console.error("Form submission error:", error);
+        setState("error", "Something went wrong. Please try again later.");
         submitButton.disabled = false;
       }
     });
   }
 
   function initParticles() {
-    const canvas = document.getElementById('particle-canvas');
+    const canvas = document.getElementById("particle-canvas");
     if (!canvas) return;
 
     const shouldReduceMotion = prefersReducedMotion.matches;
@@ -171,7 +178,7 @@
       return;
     }
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const particles = [];
     let animationFrameId = null;
     let running = true;
@@ -203,7 +210,7 @@
     const draw = () => {
       if (!running) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalCompositeOperation = "lighter";
 
       particles.forEach((particle) => {
         ctx.beginPath();
@@ -213,11 +220,14 @@
           0,
           particle.x,
           particle.y,
-          particle.radius * 6
+          particle.radius * 6,
         );
         gradient.addColorStop(0, `rgba(56, 249, 215, ${particle.alpha})`);
-        gradient.addColorStop(0.5, `rgba(122, 92, 255, ${particle.alpha * 0.6})`);
-        gradient.addColorStop(1, 'rgba(5, 7, 15, 0)');
+        gradient.addColorStop(
+          0.5,
+          `rgba(122, 92, 255, ${particle.alpha * 0.6})`,
+        );
+        gradient.addColorStop(1, "rgba(5, 7, 15, 0)");
         ctx.fillStyle = gradient;
         ctx.arc(particle.x, particle.y, particle.radius * 6, 0, Math.PI * 2);
         ctx.fill();
@@ -235,7 +245,7 @@
     };
 
     resize();
-    window.addEventListener('resize', resizeListener);
+    window.addEventListener("resize", resizeListener);
     draw();
 
     const stop = () => {
@@ -243,7 +253,7 @@
       if (animationFrameId) {
         window.cancelAnimationFrame(animationFrameId);
       }
-      window.removeEventListener('resize', resizeListener);
+      window.removeEventListener("resize", resizeListener);
     };
 
     onMotionPreferenceChange((event) => {
@@ -255,25 +265,25 @@
   }
 
   function initCLI() {
-    const overlay = document.querySelector('.cli-overlay');
-    const inputEl = document.getElementById('cli-input');
-    const logEl = document.getElementById('cli-log');
+    const overlay = document.querySelector(".cli-overlay");
+    const inputEl = document.getElementById("cli-input");
+    const logEl = document.getElementById("cli-log");
     if (!overlay || !inputEl || !logEl) return;
 
     let open = false;
-    let buffer = '';
+    let buffer = "";
 
     const commands = {
       help: () => [
-        'Available commands:',
-        '  help     - Show this help menu',
-        '  status   - System boot status',
-        '  links    - Show contact links',
-        '  motto    - Print the Who2Industries ethos',
+        "Available commands:",
+        "  help     - Show this help menu",
+        "  status   - System boot status",
+        "  links    - Show contact links",
+        "  motto    - Print the Who2Industries ethos",
       ],
       status: () => {
         if (!launchDate) {
-          return ['Status: Systems warming up...'];
+          return ["Status: Systems warming up..."];
         }
 
         const now = new Date();
@@ -284,21 +294,21 @@
         const seconds = Math.floor((diff / 1000) % 60);
 
         return [
-          'Boot sequence initiated.',
+          "Boot sequence initiated.",
           `Launch ETA: ${days}d ${hours}h ${minutes}m ${seconds}s`,
         ];
       },
       links: () => [
-        'Links:',
-        '  Socials  https://socials.who2industries.ink',
-        '  Projects https://codeberg.org/who2industries',
-        '  Mastodon https://mstdn.business/@who2industries',
-        '  Founders Mastodon https://techhub.social/@spoljarevic',
-        '  Email    info@who2industries.systems',
+        "Links:",
+        "  Socials  https://socials.who2industries.ink",
+        "  Projects https://codeberg.org/who2industries",
+        "  Mastodon https://mstdn.business/@who2industries",
+        "  Founders Mastodon https://techhub.social/@spoljarevic",
+        "  Email    info@who2industries.systems",
       ],
       motto: () => [
-        'Infrastructure meets individuality.',
-        'Open. Secure. Automated. Crafted with Linux.',
+        "Infrastructure meets individuality.",
+        "Open. Secure. Automated. Crafted with Linux.",
       ],
     };
 
@@ -308,7 +318,7 @@
 
     const write = (lines) => {
       lines.forEach((line) => {
-        const p = document.createElement('p');
+        const p = document.createElement("p");
         p.textContent = line;
         logEl.appendChild(p);
       });
@@ -316,23 +326,23 @@
     };
 
     const openOverlay = () => {
-      overlay.classList.add('active');
-      overlay.setAttribute('aria-hidden', 'false');
+      overlay.classList.add("active");
+      overlay.setAttribute("aria-hidden", "false");
       open = true;
-      buffer = '';
-      logEl.innerHTML = '';
+      buffer = "";
+      logEl.innerHTML = "";
       renderInput();
     };
 
     const closeOverlay = () => {
-      overlay.classList.remove('active');
-      overlay.setAttribute('aria-hidden', 'true');
+      overlay.classList.remove("active");
+      overlay.setAttribute("aria-hidden", "true");
       open = false;
-      buffer = '';
+      buffer = "";
       renderInput();
     };
 
-    overlay.addEventListener('click', (event) => {
+    overlay.addEventListener("click", (event) => {
       if (event.target === overlay) {
         closeOverlay();
       }
@@ -350,14 +360,23 @@
         write([`Command not found: ${command}`]);
       }
 
-      buffer = '';
+      buffer = "";
       renderInput();
     };
 
-    window.addEventListener('keydown', (event) => {
-      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+    window.addEventListener("keydown", (event) => {
+      const activeTag = document.activeElement
+        ? document.activeElement.tagName.toLowerCase()
+        : "";
 
-      if (!open && event.key === '/' && !event.ctrlKey && !event.metaKey && activeTag !== 'input' && activeTag !== 'textarea') {
+      if (
+        !open &&
+        event.key === "/" &&
+        !event.ctrlKey &&
+        !event.metaKey &&
+        activeTag !== "input" &&
+        activeTag !== "textarea"
+      ) {
         event.preventDefault();
         openOverlay();
         return;
@@ -365,25 +384,30 @@
 
       if (!open) return;
 
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         closeOverlay();
         return;
       }
 
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         event.preventDefault();
         handleCommand();
         return;
       }
 
-      if (event.key === 'Backspace') {
+      if (event.key === "Backspace") {
         event.preventDefault();
         buffer = buffer.slice(0, -1);
         renderInput();
         return;
       }
 
-      if (event.key.length === 1 && !event.metaKey && !event.ctrlKey && !event.altKey) {
+      if (
+        event.key.length === 1 &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.altKey
+      ) {
         event.preventDefault();
         buffer += event.key;
         renderInput();
@@ -391,4 +415,3 @@
     });
   }
 })();
-
