@@ -1,3 +1,10 @@
+# Notes about this Project
+
+All the code gets published to **Codeberg**. All other platforms are just mirrors.
+
+Issues, pull requests, and everything else will only be looked at on **codeberg.org**.
+
+
 # Who2Industries – Stay private. Stay root.
 
 **Homepage of Who2Industries** – a coming‑soon landing page that showcases the future launch (01‑01‑2027) of a privacy‑first IT services hub.
